@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" 
+ android:background="@color/white" xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+<ImageView
+    android:id="@+id/imgViewer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:contentDescription="@string/logoDescription"
+    android:src="@drawable/googleflog" />
+ 
+ <ScrollView
+     android:id="@+id/ScrollView01"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/imgViewer"
+     android:layout_marginLeft="10dp"
+     android:layout_marginRight="10dp" >
+ 
+ <TextView
+     android:id="@+id/txtAbout"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="@string/about"
+     android:textColor="@color/black" />
+ 
+ </ScrollView>
+
+ <Button
+     android:id="@+id/btnOk"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/ScrollView01"
+     android:layout_centerHorizontal="true"
+     android:layout_marginTop="30dp"
+     android:text="@string/ok" />
+
+ <TextView
+     android:id="@+id/txtLink"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/ScrollView01"
+     android:layout_centerHorizontal="true"
+     android:layout_marginBottom="10dp"
+     android:layout_marginTop="5dp"
+     android:text="@string/link"
+     android:textColor="@color/blue" />
+ 
+</RelativeLayout>

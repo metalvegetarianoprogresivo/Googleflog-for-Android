@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">Googleflog</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_about">Acerca de...</string>
+    <string name="title_activity_main">Googleflog</string>
+    <string name="explainer">Traductor del español al idioma metroflog.</string>
+    <string name="text">Texto:</string>
+    <string name="button">Traducir</string>
+    <string name="text2">Resultado:</string>
+    <string name="textoFinal">** prueEBAmeE ,.-~ :D</string>
+    <string name="share">¡Compartelo!</string>
+    <string name="about">Googleflog, traductor de español al estúpido idioma ** eEzhTiil0o meETr0ofl0oG *~ xD. \nIdea y desarrollo por Alejandro AR (@Kinduff).\nApliación movíl desarrollada por @lordzero0000.\nVisita el original en:</string>
+    <string name="ok">OK</string>
+    <string name="link"><a href="http://abarcarodriguez.com/googleflog">http://abarcarodriguez.com/googleflog</a></string>
+    <string name="logoDescription">Imagen del logo.</string>
+    <string name="share_using">Compartir vía...</string>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#0000ff</color>
+
+</resources>
