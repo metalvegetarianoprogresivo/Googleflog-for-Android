@@ -34,8 +34,9 @@
         android:layout_alignRight="@+id/textView2"
         android:layout_below="@+id/textView1"
         android:ems="10"
-        android:inputType="textMultiLine"
-        android:minLines="4" />
+        android:inputType="text|textMultiLine"
+        android:minLines="3"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/btnTraduce"
