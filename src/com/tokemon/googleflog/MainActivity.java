@@ -1,8 +1,12 @@
 package com.tokemon.googleflog;
 
+//import java.net.URI;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener {
 	
 	public httpHelper api = new httpHelper();
+	private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,11 @@ public class MainActivity extends Activity implements OnClickListener {
         btnTraduce.setOnClickListener(this);
         View btnShare = findViewById(R.id.btnShare);
         btnShare.setOnClickListener(this);
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Espera...");
+        dialog.setTitle("Trabajando");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCancelable(false);
         final EditText mText = (EditText)findViewById(R.id.edtTraduce);
         mText.setOnKeyListener(new OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -94,22 +104,65 @@ public class MainActivity extends Activity implements OnClickListener {
 			sharingIntent.setType("text/plain");
 			//sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
 			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, texto);
+			sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
 	        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
 		}
 	}
     
     public void sender()
     {
-    	TextView txtTexto = (TextView)findViewById(R.id.txtTexto);
 		TextView txtTraduce = (TextView)findViewById(R.id.edtTraduce);
 		String texto = txtTraduce.getText().toString().replace(" ", "");
 		if (texto.equals("")){
 			Toast.makeText(this, "Escribe algo primero.", Toast.LENGTH_LONG).show();
 		}else{
-			texto = txtTraduce.getText().toString().replace(" ", "%20");
-			String resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto);
-			txtTexto.setText(resultado);
-			Toast.makeText(this, "Finalizado.", Toast.LENGTH_LONG).show();
+			//String resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto);
+			new apiCaller().execute();
 		}
     }
+    
+    private class apiCaller extends AsyncTask<String, Float, Integer>{
+    	
+    	String resultado;
+    	 
+        protected void onPreExecute() {
+            dialog.setProgress(0);
+            dialog.setMax(100);
+            dialog.show(); //Mostramos el diálogo antes de comenzar
+         }
+
+        protected Integer doInBackground(String... text) {
+            /**
+             * Simularemos que descargamos un fichero
+             * mediante un sleep
+             */
+
+             //for (int i = 0; i < 250; i++) {
+                   //Simulamos cierto retraso
+                   try {
+                	   TextView txtTraduce = (TextView)findViewById(R.id.edtTraduce);
+               		   String texto = txtTraduce.getText().toString().replace(" ", "");
+               		   texto = txtTraduce.getText().toString().replace(" ", "%20");
+                	   resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto);
+                   }
+                   catch (Exception e) {}
+
+                   //publishProgress(i/250f); //Actualizamos los valores
+               //}
+
+             return 250;
+         }
+
+         protected void onProgressUpdate (Float... valores) {
+             int p = Math.round(100*valores[0]);
+             dialog.setProgress(p);
+         }
+
+         protected void onPostExecute(Integer bytes) {
+        	 TextView txtTraducido = (TextView)findViewById(R.id.txtTexto);
+      	   	 txtTraducido.setText(resultado);
+             dialog.dismiss();
+             Toast.makeText(MainActivity.this, "Finalizado.", Toast.LENGTH_SHORT).show();
+         }
+   }
 }
