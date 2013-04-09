@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements OnClickListener {
                    try {
                 	   TextView txtTraduce = (TextView)findViewById(R.id.edtTraduce);
                		   String texto = txtTraduce.getText().toString().replace(" ", "%20");
-                	   resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto); 
+                	   resultado = api.post("http://abarcarodriguez.com/googleflog/api.php", texto, "json"); 
                 	   // Llamamos a la clase que se conecta.
                    }
                    catch (Exception e) {
