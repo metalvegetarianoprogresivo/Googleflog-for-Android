@@ -1,7 +1,5 @@
 package com.tokemon.googleflog;
 
-//import java.net.URI;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -75,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
         	dialog.setCancelable(true);
         	// Chingos de opciones.
         		
-        	// El boton de dismiss...
+        	// dismiss button
         	Button button = (Button) dialog.findViewById(R.id.btnOk);
         	button.setOnClickListener(new OnClickListener() {
         		public void onClick(View v) {
@@ -102,7 +100,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			String texto = txtTexto.getText().toString();
 			Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 			sharingIntent.setType("text/plain");
-			//sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
 			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, texto);
 			sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
 	        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
@@ -116,49 +113,39 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (texto.equals("")){
 			Toast.makeText(this, "Escribe algo primero.", Toast.LENGTH_LONG).show();
 		}else{
-			//String resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto);
+			// Llamamos al hilo encargado del proceso de traducción.
 			new apiCaller().execute();
 		}
     }
     
-    private class apiCaller extends AsyncTask<String, Float, Integer>{
+    private class apiCaller extends AsyncTask<String, Float, Boolean>{
     	
-    	String resultado;
+    	String resultado; // Variable en la que se almacena el resultado.
     	 
         protected void onPreExecute() {
             dialog.setProgress(0);
             dialog.setMax(100);
-            dialog.show(); //Mostramos el diálogo antes de comenzar
+            dialog.show(); //Mostramos el diálogo antes de comenzar.
          }
 
-        protected Integer doInBackground(String... text) {
-            /**
-             * Simularemos que descargamos un fichero
-             * mediante un sleep
-             */
-
-             //for (int i = 0; i < 250; i++) {
-                   //Simulamos cierto retraso
+        protected Boolean doInBackground(String... text) {
+            
                    try {
                 	   TextView txtTraduce = (TextView)findViewById(R.id.edtTraduce);
-               		   String texto = txtTraduce.getText().toString().replace(" ", "");
-               		   texto = txtTraduce.getText().toString().replace(" ", "%20");
-                	   resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto);
+               		   String texto = txtTraduce.getText().toString().replace(" ", "%20");
+                	   resultado = api.post("http://abarcarodriguez.com/googleflog/api.php?s=" + texto); 
+                	   // Llamamos a la clase que se conecta.
                    }
-                   catch (Exception e) {}
+                   catch (Exception e) {
+                	   
+                	   Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                	   
+                   }
 
-                   //publishProgress(i/250f); //Actualizamos los valores
-               //}
-
-             return 250;
+             return true;
          }
-
-         protected void onProgressUpdate (Float... valores) {
-             int p = Math.round(100*valores[0]);
-             dialog.setProgress(p);
-         }
-
-         protected void onPostExecute(Integer bytes) {
+        
+         protected void onPostExecute(Boolean bytes) {
         	 TextView txtTraducido = (TextView)findViewById(R.id.txtTexto);
       	   	 txtTraducido.setText(resultado);
              dialog.dismiss();
